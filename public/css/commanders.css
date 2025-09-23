@@ -1,0 +1,62 @@
+
+
+#commanders-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.commander-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.commander-card:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.commander-card svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.commander-image,
+.commander-title,
+.commander-deck-count {
+    margin: 0;
+}
+
+.commander-image {
+    margin: 0.5rem;
+}
+
+.commander-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0.75rem 0.5rem 0.25rem;
+    line-height: 1.3;
+    min-height: 2.6em; /* Accomodate for 2 lines of text */
+}
+
+.commander-deck-count {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0 0.5rem 0.75rem;
+}
+
+.commander-title .name {
+    display: block;
+}
+.commander-title .title {
+    font-size: 0.8em;
+    color: #666;
+}

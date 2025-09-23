@@ -1,0 +1,74 @@
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0.8rem;
+    padding: 1rem;
+}
+
+.card-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.card-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.card-image {
+    position: relative;
+    font-size: 0;
+    padding: 0.5rem;
+}
+.card-image svg {
+    width: 100%;
+    height: auto;
+    padding: 0.5em;
+}
+
+.card-info {
+    padding: 10px 15px 5px;
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.8) 20%,
+        rgba(255, 255, 255, 0.9) 100%
+    );
+    margin-bottom: 1em;
+    --margin: 0.9em;
+    margin-left: var(--margin);
+    margin-right: var(--margin);
+    --radius: 0.3em;
+    border-radius: 0 0 var(--radius) var(--radius);
+    width: calc(100% - calc(var(--margin) * 2));
+}
+
+.card-title {
+    font-size: 0.9em;
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.card-count {
+    font-size: 0.8em;
+    color: #555;
+    margin: 0;
+}
+
+.card-inclusion-percentage {
+    font-size: 0.9em;
+    color: #777;
+    margin: 10px 0 0;
+}
