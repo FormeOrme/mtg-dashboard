@@ -9,7 +9,7 @@ export default class ColorIdentityController {
             const [count, list, cards] = await Promise.all([
                 CommanderQueries.getCommanderCountByColor(colorNumber),
                 CommanderQueries.getCommandersByColor(colorNumber),
-                CardQueries.getCardsByCommanderColor(colorNumber, 8 * 3),
+                CardQueries.getCardsByCommanderColor(colorNumber, 9 * 3),
             ]);
             return { list, count, cards };
         } catch (error) {

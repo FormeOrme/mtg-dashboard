@@ -7,18 +7,12 @@
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/commanders.css" />
     <link rel="stylesheet" href="/css/cards.css" />
-    <title>{{identity}} Commanders</title>
+    <title>{{title}}</title>
 </head>
 
 <body>
     <div class="container">
-        <h1>{{identity}} Commanders</h1>
-        <div id="commanders-grid">
-            {{#each commanders}}
-            {{>commander this}}
-            {{/each}}
-        </div>
-        <h1>Cards used in {{identity}} decks</h1>
+        <h1>{{title}}</h1>
         <div id="cards-grid">
             {{#each sections}}
             {{>section this}}

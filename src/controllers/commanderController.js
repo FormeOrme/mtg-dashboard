@@ -1,4 +1,5 @@
 import CommanderQueries from "../queries/CommanderQueries.js";
+import CardQueries from "../queries/CardQueries.js";
 import { Strings } from "../utils/strings.js";
 
 export default class CommanderController {
@@ -23,6 +24,19 @@ export default class CommanderController {
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async getDataForCommanderName(name) {
+        try {
+            const [commanders, cards] = await Promise.all([
+                CardQueries.getCommandersByCommanderName(name),
+                CardQueries.getCardsByCommanderName(name, 9 * 3),
+            ]);
+            return { commanders, cards };
+        } catch (error) {
+            console.error(`Error fetching data for commander ${name}:`, error);
+            throw error;
         }
     }
 }

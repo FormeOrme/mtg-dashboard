@@ -38,7 +38,8 @@ export function getCardSvg(images, hbs) {
     const heightPerImg = heightPerCard - (commanderCount - 1) * verticalPadding;
     const ratio = heightPerImg / heightPerCard;
     const widthPerImg = widthPerCard * ratio;
-    const horizontalPadding = (widthPerCard - widthPerImg) / (commanderCount - 1);
+    const horizontalPadding =
+        commanderCount == 1 ? 0 : (widthPerCard - widthPerImg) / (commanderCount - 1);
 
     const borderRadius = 3 * zoom * ratio;
 

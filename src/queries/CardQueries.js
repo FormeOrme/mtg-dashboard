@@ -82,7 +82,18 @@ export default class CardQueries {
         return await database.all(query, values);
     }
 
-    static async getCardsByCommanderName(name) {
+    static async getCommandersByCommanderName(name) {
+        const names = name.split("__");
+        const query = `
+            SELECT *
+            FROM oracle
+            WHERE card_id IN (${names.map(() => "?").join(",")})
+        `;
+        const values = [...names];
+        return await database.get(query, values);
+    }
+
+    static async getCardsByCommanderName(name, limit) {
         const query = `
             WITH 
 
@@ -152,7 +163,7 @@ export default class CardQueries {
                 rc.type_name, rc.rn;
         `;
 
-        const values = [name, 50];
+        const values = [name, limit];
         return await database.all(query, values);
     }
 }

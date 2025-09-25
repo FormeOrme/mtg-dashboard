@@ -3,6 +3,7 @@ import ColorIdentityController from "../controllers/colorIdentityController.js";
 import { getImgUrl } from "../utils/hbs-helpers.js";
 import { getIdentityName } from "../utils/color.js";
 import { titleFromCard } from "../utils/strings.js";
+import { groupCardsIntoSections } from "../utils/card-grouping.js";
 
 const router = express.Router();
 
@@ -32,21 +33,7 @@ router.get("/:ci", async (req, res, next) => {
             };
         });
 
-        const sections = cards.reduce((acc, card) => {
-            if (!acc[card.type_name]) {
-                acc[card.type_name] = {
-                    type_name: card.type_name,
-                    cards: [],
-                };
-            }
-            const url = getImgUrl(card.img_id);
-            acc[card.type_name].cards.push({
-                ...card,
-                title: card.name.split("//")[0].trim(),
-                img_url: url,
-            });
-            return acc;
-        }, {});
+        const sections = groupCardsIntoSections(cards);
 
         res.render("ci", {
             identity: getIdentityName(ci),

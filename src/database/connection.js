@@ -196,8 +196,8 @@ class Database {
         await database.run(`CREATE TEMP VIEW IF NOT EXISTS 
             deck_commanders AS 
                 SELECT c.deck_id, c.card_id, o.color
-                FROM Cards c
-                JOIN Oracle o ON c.card_id = o.card_id
+                FROM cards c
+                JOIN oracle o ON c.card_id = o.card_id
                 WHERE c.side > 0;
         `);
 
@@ -211,7 +211,7 @@ class Database {
         await database.run(`CREATE TEMP VIEW IF NOT EXISTS
             commander_groups AS
                 SELECT 
-                    deck_id,
+                    dc.deck_id,
                     CASE
                     -- When there's only one commander for this deck
                     WHEN COUNT(*) = 1 THEN MAX(card_id)
@@ -224,8 +224,13 @@ class Database {
                     ((sum(color & 4) > 0) * 4) +
                     ((sum(color & 8) > 0) * 8) +
                     ((sum(color & 16) > 0) * 16) AS color
-                FROM deck_commanders
-                GROUP BY deck_id;
+                FROM deck_commanders dc
+                LEFT JOIN decks d 
+                    ON dc.deck_id = d.deck_id
+                WHERE  dc.deck_id != 686777
+                    AND dc.deck_id != 714327
+                    AND dc.deck_id != 691341
+                GROUP BY dc.deck_id;
         `);
     }
 }

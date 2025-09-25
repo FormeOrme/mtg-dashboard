@@ -37,8 +37,11 @@ app.get("", (req, res) => {
 });
 
 // Use the refactored routes
-import ciRoutes from "./src/routes/ci.js";
+import ciRoutes from "./src/routes/ciRouter.js";
 app.use("/ci", ciRoutes);
+
+import commanderRoutes from "./src/routes/commanderRouter.js";
+app.use("/commander", commanderRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
