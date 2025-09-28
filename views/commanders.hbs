@@ -7,16 +7,22 @@
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/commanders.css" />
     <link rel="stylesheet" href="/css/cards.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
     <title>{{title}}</title>
 </head>
 
 <body>
-    <div class="container">
-        <h1>{{title}}</h1>
-        <div id="cards-grid">
-            {{#each sections}}
-            {{>section this}}
-            {{/each}}
+    {{> sidebar}}
+    <div class="main-content">
+        <div class="container">
+            <div id="cards-container">
+                <h1>{{title}}</h1>
+                <div id="cards-grid">
+                    {{#each sections}}
+                    {{>section this}}
+                    {{/each}}
+                </div>
+            </div>
         </div>
     </div>
 </body>

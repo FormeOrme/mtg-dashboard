@@ -1,8 +1,13 @@
-function getCurrentWeekEpoch() {
+/**
+ * Get a timestamp that changes every week, used to force image reloads weekly.
+ * @returns {number} A timestamp representing the start of the current week.
+ */
+function getCurrentWeekTimestamp() {
     const now = new Date();
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-    const pastDaysOfYear = (now - startOfYear) / 86400000;
-    return Math.ceil((pastDaysOfYear + startOfYear.getDay() + 1) / 7);
+    const startOfWeek = new Date(now);
+    startOfWeek.setHours(0, 0, 0, 0);
+    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+    return startOfWeek.getTime();
 }
 
 export function getImgUrl(oracleId) {
@@ -11,7 +16,7 @@ export function getImgUrl(oracleId) {
     // return `https://api.scryfall.com/cards/${oracleId}?format=image&version=normal`;
     return `https://cards.scryfall.io/normal/front/${oracleId.charAt(0)}/${oracleId.charAt(
         1,
-    )}/${oracleId}.jpg?${getCurrentWeekEpoch()}`;
+    )}/${oracleId}.jpg?${getCurrentWeekTimestamp()}`;
 }
 
 export function getCardSvg(images, hbs) {

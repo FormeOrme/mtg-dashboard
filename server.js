@@ -29,14 +29,10 @@ hbs.registerHelper("getCardSvg", function (images) {
 // Setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
-app.get("", (req, res) => {
-    res.render("index", {
-        title: "MTG Dashboard",
-        name: "Federico",
-    });
-});
-
 // Use the refactored routes
+import indexRouter from "./src/routes/indexRouter.js";
+app.use("/", indexRouter);
+
 import ciRoutes from "./src/routes/ciRouter.js";
 app.use("/ci", ciRoutes);
 
@@ -48,7 +44,7 @@ app.use((err, req, res, next) => {
     console.error("Error stack:", err.stack);
     res.status(500).json({
         error: "Something went wrong!",
-        message: process.env.NODE_ENV === "development" ? err.message : "Internal server error",
+        message: err.message,
     });
 });
 

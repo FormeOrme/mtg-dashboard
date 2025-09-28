@@ -22,10 +22,14 @@ export function groupCardsIntoSections(cards) {
         }
         const title = card.name.split("//")[0].trim();
         const img_url = getImgUrl(card.img_id);
+
+        const arena = (card.format & 127) === 0 ? "non-arena" : "arena";
+
         acc[card.type_name].cards.push({
             ...card,
             title,
             img_url,
+            arena,
         });
         return acc;
     }, {});

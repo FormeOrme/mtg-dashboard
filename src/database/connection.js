@@ -202,11 +202,36 @@ class Database {
         `);
 
         await database.run(`CREATE TEMP VIEW IF NOT EXISTS 
+            -- Define base types with their corresponding bitmask values.
+            base_types AS
+            SELECT 'land' AS type_name, 1 AS type_mask UNION ALL
+            SELECT 'artifact', 2 UNION ALL
+            SELECT 'creature', 4 UNION ALL
+            SELECT 'enchantment', 8 UNION ALL
+            SELECT 'planeswalker', 16 UNION ALL
+            SELECT 'battle', 32 UNION ALL
+            SELECT 'instant', 64 UNION ALL
+            SELECT 'sorcery', 128;
+        `);
+
+        await database.run(`CREATE TEMP VIEW IF NOT EXISTS 
             mainboard AS
                 SELECT c.card_id, c.deck_id
                 FROM cards c
                 WHERE c.main > 0;
         `);
+
+        const EXCLUDED_DECKS = [686777, 714327, 691341];
+
+        //prettier-ignore
+        const LEVEL = [
+            // "Professional", 
+            "Major", 
+            "Competitive", 
+            // "Regular"
+        ].map((l) => l[0]);
+
+        const EXCLUDE_PLACEHOLDERS = ["%Rareless%"];
 
         await database.run(`CREATE TEMP VIEW IF NOT EXISTS
             commander_groups AS
@@ -227,9 +252,12 @@ class Database {
                 FROM deck_commanders dc
                 LEFT JOIN decks d 
                     ON dc.deck_id = d.deck_id
-                WHERE  dc.deck_id != 686777
-                    AND dc.deck_id != 714327
-                    AND dc.deck_id != 691341
+                LEFT JOIN events e
+                    ON d.event_id = e.event_id
+                WHERE 1=1
+                    AND e.level in (${LEVEL.map((l) => `'${l}'`).join(", ")})   
+                    ${EXCLUDED_DECKS.map((id) => `AND dc.deck_id != ${id}`).join(" ")}
+                    ${EXCLUDE_PLACEHOLDERS.map((ph) => `AND e.name NOT LIKE '${ph}'`).join(" ")}
                 GROUP BY dc.deck_id;
         `);
     }
