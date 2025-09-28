@@ -6,7 +6,8 @@
     "type": "module",
     "scripts": {
         "start": "node server.js",
-        "dev": "nodemon server.js -e js,hbs"
+        "dev": "nodemon server.js -e js,hbs",
+        "test": "node test/speed-test.js"
     },
     "keywords": [
         "mtg",

@@ -5,7 +5,7 @@ export default class CommanderController {
         try {
             const [commanders, cards] = await Promise.all([
                 CardQueries.getCommandersByCommanderName(name),
-                CardQueries.getCardsByCommanderName(name, 9 * 3),
+                CardQueries.getCardRelevanceByCommanderNameOptimized(name, 9 * 3),
             ]);
             return { commanders, cards };
         } catch (error) {

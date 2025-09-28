@@ -4,9 +4,23 @@
     </div>
     <div class="card-info">
         <h5 class="card-title">{{title}}</h5>
+        {{#if inclusion_percentage}}
         <p class="card-count">
             <span class="card-count-numerator">{{card_count}}/{{total_decks}}</span>
             <span class="card-inclusion-percentage">{{inclusion_percentage}}%</span>
         </p>
+        {{else}}
+        <div class="card-count">
+            <ul>
+                <li class="card-count-numerator">{{card_count_commander}}/{{total_decks_by_commander}}
+                    <span>{{inclusion_percentage_commander}}%</span>
+                </li>
+                <li class="card-count-numerator">{{card_count_color}}/{{total_decks_by_color}}
+                    <span>{{inclusion_percentage_color}}%</span>
+                </li>
+                <li class="card-count-numerator relevance">{{relevance}}%</li>
+            </ul>
+        </div>
+        {{/if}}
     </div>
 </div>

@@ -10,6 +10,10 @@ const router = express.Router();
 router.get("/:ci", async (req, res, next) => {
     const { ci } = req.params;
 
+    if (!isValid(ci)) {
+        throw new Error("Invalid color identity");
+    }
+
     try {
         const { list, count, cards } = await ColorIdentityController.getDataForColorIdentity(ci);
 
@@ -44,5 +48,11 @@ router.get("/:ci", async (req, res, next) => {
         next(error);
     }
 });
+
+function isValid(ci) {
+    const color = ci.toUpperCase();
+    if (color === "C") return true;
+    return /^[WUBRG]+$/.test(color);
+}
 
 export default router;
