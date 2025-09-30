@@ -95,7 +95,7 @@ export default class CardQueries {
         return await database.get(query, values);
     }
 
-    static async getCardRelevanceByCommanderNameOptimized(name, limit) {
+    static async getCardSinergyByCommanderNameExcluding(name, limit) {
         const query = `WITH
             commander_decks AS (
                 SELECT deck_id, color
@@ -111,16 +111,23 @@ export default class CardQueries {
                 SELECT deck_id
                 FROM commander_groups, commander_color
                 WHERE commander_groups.color = commander_color.color
+                AND commander_groups.commander_name != $name
             ),
             card_counts AS (
                 SELECT
-                    c.card_id,
-                    SUM(CASE WHEN cd.deck_id IS NOT NULL THEN 1 ELSE 0 END) AS card_count_commander,
-                    COUNT(c.card_id) AS card_count_color
-                FROM mainboard c
-                JOIN color_decks cl ON c.deck_id = cl.deck_id
-                LEFT JOIN commander_decks cd ON c.deck_id = cd.deck_id
-                GROUP BY c.card_id
+                    card_id,
+                    SUM(is_in_commander_deck) AS card_count_commander,
+                    SUM(is_in_color_deck) AS card_count_color
+                FROM (
+                    SELECT c.card_id, 1 AS is_in_commander_deck, 0 AS is_in_color_deck
+                    FROM mainboard c
+                    JOIN commander_decks cd ON c.deck_id = cd.deck_id
+                    UNION ALL
+                    SELECT c.card_id, 0 AS is_in_commander_deck, 1 AS is_in_color_deck
+                    FROM mainboard c
+                    JOIN color_decks cl ON c.deck_id = cl.deck_id
+                ) AS all_cards
+                GROUP BY card_id
             ),
             deck_counts AS (
                 SELECT
@@ -143,7 +150,7 @@ export default class CardQueries {
                 SELECT
                     d.*,
                     bt.type_name,
-                    ROUND((d.inclusion_percentage_commander - d.inclusion_percentage_color), 2) AS relevance,
+                    ROUND((d.inclusion_percentage_commander - d.inclusion_percentage_color), 2) AS sinergy,
                     DENSE_RANK() OVER (
                         PARTITION BY bt.type_name
                         ORDER BY (d.inclusion_percentage_commander - d.inclusion_percentage_color) DESC, d.card_id ASC
@@ -167,7 +174,7 @@ export default class CardQueries {
             FROM sorted_data sd
             JOIN oracle o ON sd.card_id = o.card_id
             WHERE sd.rank <= $limit
-            ORDER BY sd.relevance DESC, sd.card_id ASC
+            ORDER BY sd.sinergy DESC, sd.card_id ASC
         `;
         const values = { $name: name, $limit: limit };
         return await database.all(query, values);

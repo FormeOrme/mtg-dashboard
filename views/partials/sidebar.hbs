@@ -1,13 +1,21 @@
 <div id="sidebar" class="sidebar-container">
+    <h2><a href="/">All Commanders</a></h2>
     <h2>Navigation</h2>
     <ul>
-        <li><a href="/">Home</a></li>
         <li><a href="#commanders-container">Commanders</a></li>
         {{#each sections}}
         <li><a href="#{{this.type_name}}">{{this.type_name}}</a></li>
         {{/each}}
     </ul>
     <h2>Colors</h2>
-    <ul>
-    </ul>
+    <div class="colors-container">
+        {{#each colors}}
+        <a href="/ci/{{this.code}}" class="color-link {{#if (eq this.code ../selectedCode)}}selected{{/if}}"
+            title="{{this.name}}">
+            <span class="color-icon">
+                {{{getColorSvg this.code}}}
+            </span>
+        </a>
+        {{/each}}
+    </div>
 </div>

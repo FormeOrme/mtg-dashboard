@@ -225,10 +225,10 @@ class Database {
 
         //prettier-ignore
         const LEVEL = [
-            // "Professional", 
+            "Professional", 
             "Major", 
             "Competitive", 
-            // "Regular"
+            "Regular"
         ].map((l) => l[0]);
 
         const EXCLUDE_PLACEHOLDERS = ["%Rareless%"];
@@ -255,6 +255,8 @@ class Database {
                 LEFT JOIN events e
                     ON d.event_id = e.event_id
                 WHERE 1=1
+                    -- exclude events before JULY 28, 2025
+                    AND e.date >= ${Math.floor(new Date("2025-07-25").getTime() / 1000)}
                     AND e.level in (${LEVEL.map((l) => `'${l}'`).join(", ")})   
                     ${EXCLUDED_DECKS.map((id) => `AND dc.deck_id != ${id}`).join(" ")}
                     ${EXCLUDE_PLACEHOLDERS.map((ph) => `AND e.name NOT LIKE '${ph}'`).join(" ")}

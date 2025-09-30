@@ -15,8 +15,16 @@
     {{> sidebar}}
     <div class="main-content">
         <div class="container">
+            <div id="commanders-container">
+                <h1>Commander</h1>
+                <div id="commanders-grid">
+                    {{#each commanders}}
+                    {{>commander this}}
+                    {{/each}}
+                </div>
+            </div>
             <div id="cards-container">
-                <h1>{{title}}</h1>
+                <h1>Cards used</h1>
                 <div id="cards-grid">
                     {{#each sections}}
                     {{>section this}}

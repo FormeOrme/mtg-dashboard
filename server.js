@@ -4,8 +4,6 @@ import hbs from "hbs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { getCardSvg } from "./src/utils/hbs-helpers.js";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -22,9 +20,17 @@ app.set("view engine", "hbs");
 app.set("views", viewsPath);
 hbs.registerPartials(partialsPath);
 
+import { getCardSvg, getColorSvg, eq } from "./src/utils/hbs-helpers.js";
+
 hbs.registerHelper("getCardSvg", function (images) {
     return getCardSvg(images, hbs);
 });
+
+hbs.registerHelper("getColorSvg", function (color) {
+    return getColorSvg(color, hbs);
+});
+
+hbs.registerHelper("eq", eq);
 
 // Setup static directory to serve
 app.use(express.static(publicDirectoryPath));

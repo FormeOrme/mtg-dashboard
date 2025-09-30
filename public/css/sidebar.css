@@ -38,3 +38,50 @@
 .main-content {
     margin-left: 220px;
 }
+
+/* Colors Section Styling */
+#sidebar .colors-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.color-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow);
+}
+
+.color-link.selected {
+    background-color: var(--bg-secondary);
+}
+.color-link:hover {
+    box-shadow: var(--shadow-lg);
+    background-color: var(--primary);
+}
+
+.color-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.color-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    transition: filter 0.2s ease;
+}
+
+.color-link:hover .color-icon svg {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}

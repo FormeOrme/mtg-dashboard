@@ -13,3 +13,5 @@ then follow these guidelines:
 -   Use the imperative mood in the subject line. (e.g., Add feature not Added feature)
 -   Wrap the body at 72 characters. This ensures the message is easy to read in various tools.
 -   The code itself shows how, so the commit message should explain the reasoning behind the change.
+
+The commit message should follow the conventional commit format.
